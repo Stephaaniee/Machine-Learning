@@ -1,0 +1,9 @@
+message,label
+"Get a free iPhone now!",spam
+"Congratulations! You've won a trip to Hawaii!",spam
+"Hey, are you free for dinner tonight?",ham
+"Reminder: Your appointment is tomorrow at 2 PM.",ham
+"URGENT: Your account has been compromised. Take action now!",spam
+"Hi, just wanted to check in. How are you doing?",ham
+"Click here to claim your prize!",spam
+"Meeting canceled. We'll reschedule for next week.",ham
