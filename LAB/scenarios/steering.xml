@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+	<declaration>// Place global declarations here.
+broadcast chan goIdle, left, right;
+
+clock x;</declaration>
+	<template>
+		<name x="5" y="5">truckMasterSteering</name>
+		<declaration>// Place local declarations here.
+</declaration>
+		<location id="id0" x="-204" y="-229">
+			<name x="-229" y="-263">idle</name>
+		</location>
+		<location id="id1" x="-382" y="-8">
+			<name x="-425" y="0">turnLeft</name>
+		</location>
+		<location id="id2" x="-59" y="-8">
+			<name x="-34" y="-8">turnRight</name>
+		</location>
+		<init ref="id0"/>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id1"/>
+			<label kind="guard" x="-364" y="-42">x &gt;= 2</label>
+			<label kind="synchronisation" x="-364" y="-25">left!</label>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id0"/>
+			<label kind="guard" x="-186" y="-242">x&gt;=2</label>
+			<label kind="synchronisation" x="-186" y="-225">goIdle!</label>
+			<nail x="-17" y="-187"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id0"/>
+			<label kind="guard" x="-373" y="-250">x&gt;=2</label>
+			<label kind="synchronisation" x="-373" y="-233">goIdle!</label>
+			<nail x="-391" y="-204"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id1"/>
+			<label kind="guard" x="-364" y="-148">x &gt;= 2</label>
+			<label kind="synchronisation" x="-364" y="-131">left!</label>
+			<nail x="-212" y="-221"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id2"/>
+			<label kind="guard" x="-364" y="25">x &gt;= 2</label>
+			<label kind="synchronisation" x="-364" y="42">right!</label>
+			<nail x="-212" y="127"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id2"/>
+			<label kind="guard" x="-177" y="-144">x &gt;= 2</label>
+			<label kind="synchronisation" x="-177" y="-127">right!</label>
+			<nail x="-195" y="-212"/>
+		</transition>
+	</template>
+	<template>
+		<name>truckSlaveSteering</name>
+		<location id="id3" x="-204" y="-229">
+			<name x="-229" y="-263">idle</name>
+		</location>
+		<location id="id4" x="-382" y="-8">
+			<name x="-425" y="0">turnLeft</name>
+		</location>
+		<location id="id5" x="-59" y="-8">
+			<name x="-34" y="-8">turnRight</name>
+		</location>
+		<init ref="id3"/>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id4"/>
+			<label kind="synchronisation" x="-364" y="-25">left?</label>
+			<label kind="assignment" x="-364" y="-8">x := 0</label>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id3"/>
+			<label kind="synchronisation" x="-186" y="-225">goIdle?</label>
+			<label kind="assignment" x="-186" y="-208">x := 0</label>
+			<nail x="-17" y="-187"/>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id3"/>
+			<label kind="synchronisation" x="-373" y="-233">goIdle?</label>
+			<label kind="assignment" x="-373" y="-216">x := 0</label>
+			<nail x="-391" y="-204"/>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id4"/>
+			<label kind="synchronisation" x="-331" y="-136">left?</label>
+			<label kind="assignment" x="-364" y="-114">x := 0</label>
+			<nail x="-212" y="-221"/>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id5"/>
+			<label kind="synchronisation" x="-364" y="42">right?</label>
+			<label kind="assignment" x="-364" y="59">x := 0</label>
+			<nail x="-212" y="127"/>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id5"/>
+			<label kind="synchronisation" x="-177" y="-127">right?</label>
+			<label kind="assignment" x="-177" y="-110">x := 0</label>
+			<nail x="-195" y="-212"/>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+truckMasterOne = truckMasterSteering();
+truckSlaveOne = truckSlaveSteering();
+
+// List one or more processes to be composed into a system.
+system truckMasterOne, truckSlaveOne;
+    </system>
+	<queries>
+		<query>
+			<formula>A[] not deadlock</formula>
+			<comment></comment>
+		</query>
+	</queries>
+</nta>
